@@ -15,13 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.views.generic.base import TemplateView
 
-from django.contrib import admin
-from django.conf.urls import url
-
-from views import ObtainJWTView
+from views import Login,Register,Verify_Token
 
 urlpatterns = [
-    url('admin/',admin.site.urls),
-    url('login/', view=ObtainJWTView.as_view(), name='login'),
+    url(r'^$', view=TemplateView.as_view(template_name='home.html'), name='home'),
+    url(r'^admin/',admin.site.urls),
+    url(r'^login/$', view=Login.as_view(), name='login'),
+    url(r'^logout/$', view=auth_views.logout, name='logout'),
+    url(r'^register/$', view=Register.as_view(), name='register'),
+    url(r'^verify_token/$', view=Verify_Token.as_view(), name='verify_token'),
 ]

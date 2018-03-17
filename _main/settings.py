@@ -11,15 +11,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-from mongoengine import *
-connect(
-   db='drought-protect',
-   username='rishz',
-   password='abcd1234',
-   host='ds215759.mlab.com',
-   port=15759,
-   alias="mongo"
-)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -46,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'auth'
 ]
 
 MIDDLEWARE = [
@@ -63,7 +55,7 @@ ROOT_URLCONF = '_main.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,3 +120,10 @@ APPEND_SLASH=False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'auth.User'
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': (                             'auth.authentication.TokenAuthentication', ),
+  'DEFAULT_PERMISSION_CLASSES': ( 'rest_framework.permissions.IsAuthenticated', )
+}
