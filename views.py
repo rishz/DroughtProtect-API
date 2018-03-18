@@ -20,7 +20,12 @@ class Login(views.APIView):
 
         try:
             user = User.objects.get(email=email)
-            user.check_password(password)
+            if not user.check_password(password):
+                return HttpResponse(
+                    json.dumps({'Error': "Invalid credentials"}),
+                    status=400,
+                    content_type="application/json"
+                )
         except User.DoesNotExist:
             return Response({'Error': "Invalid email/password"}, status="400")
 
